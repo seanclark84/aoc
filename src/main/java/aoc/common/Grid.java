@@ -44,8 +44,10 @@ public class Grid<G extends GridEntry> {
                     }
                     entry.getEntryDirection().put(dir, neighbour);
                 }
+                entry.postInitialisation();
             }
         }
+
 
     }
 
