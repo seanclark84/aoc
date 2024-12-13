@@ -2,6 +2,8 @@ package aoc.common;
 
 import aoc.year2024.Day4;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.function.Supplier;
 
@@ -14,6 +16,8 @@ public enum Direction {
     DOWN_LEFT(-1, 1),
     LEFT(-1, 0),
     UP_LEFT(-1, -1);
+
+    private static final LinkedList<Direction> DIRECTIONS = new LinkedList<>(Arrays.stream(Direction.values()).toList());
 
     private int x;
     private int y;
@@ -49,5 +53,19 @@ public enum Direction {
             ordinal = Direction.values().length + ordinal;
         }
         return Direction.values()[ordinal];
+    }
+
+    public Alignment getAlignment() {
+        return this == RIGHT || this == LEFT ? Alignment.HORIZONTAL :
+                this == UP || this == DOWN ? Alignment.VERTICAL :
+                        Alignment.DIAGONAL;
+    }
+
+    public Iterator<Direction> iterateFromThis() {
+        return iterateFrom(this);
+    }
+
+    public static Iterator<Direction> iterateFrom(Direction direction) {
+        return DIRECTIONS.listIterator(DIRECTIONS.indexOf(direction));
     }
 }
