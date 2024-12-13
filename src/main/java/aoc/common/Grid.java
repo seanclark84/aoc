@@ -23,7 +23,7 @@ public class Grid<G extends GridEntry> {
                 String[] line = input[i];
                 for (int j = 0; j < line.length; j++) {
                     String data = input[i][j];
-                    G entry = clazz.getDeclaredConstructor(data.getClass(), Coordinate.class).newInstance(data, new Coordinate(j, i));
+                    G entry = clazz.getDeclaredConstructor(data.getClass(), Grid.class, Coordinate.class).newInstance(data, this, new Coordinate(j, i));
                     grid[i][j] = entry;
                 }
             }
@@ -51,6 +51,21 @@ public class Grid<G extends GridEntry> {
 
     }
 
+    public void printGrid(G entry) {
+        System.out.println("----------");
+        for (G[] rowEntry : grid) {
+            StringBuilder sb = new StringBuilder();
+            for (G g : rowEntry) {
+                if (g.equals(entry)) {
+                    sb.append("&");
+                } else {
+                    sb.append(g.getData());
+                }
+            }
+            System.out.println(sb);
+        }
+    }
+
     public Optional<G> findFirst(Predicate<G> test) {
         return Arrays.stream(grid).flatMap(Arrays::stream).filter(test).findFirst();
     }
@@ -66,5 +81,13 @@ public class Grid<G extends GridEntry> {
         return Arrays.stream(grid)
                 .flatMap(Arrays::stream)
                 .toList();
+    }
+
+    public G getByCoords(int x, int y) {
+        try {
+            return grid[y][x];
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            return null;
+        }
     }
 }

@@ -113,9 +113,10 @@ public class Day12_2 {
 
         private int fences = 0;
 
-        public FieldGridEntry(@NonNull String data, Coordinate coordinate) {
-            super(data, coordinate);
+        public FieldGridEntry(@NonNull String data, @NonNull Grid<FieldGridEntry> grid, Coordinate coordinate) {
+            super(data, grid, coordinate);
         }
+
 
         @Override
         public void postInitialisation() {
